@@ -8,8 +8,8 @@ def ingest_data():
     
     documents = []
     
+    # 1. Web Ingestion
     urls = ["https://gepprotech.com"]
-
     print(f"Loading from URLs: {urls}")
     try:
         web_loader = WebBaseLoader(urls)
@@ -19,6 +19,7 @@ def ingest_data():
     except Exception as e:
         print(f"Error loading from Web: {e}")
 
+    # 2. PDF Ingestion
     pdf_dir = "data"
     if os.path.exists(pdf_dir):
         print(f"Loading PDFs from: {pdf_dir}")
@@ -39,6 +40,7 @@ def ingest_data():
         print("No documents to ingest.")
         return
 
+    # 3. Text Splitting
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=200
@@ -46,6 +48,7 @@ def ingest_data():
     splits = text_splitter.split_documents(documents)
     print(f"Split into {len(splits)} chunks.")
 
+    # 4. Vector Store Upsert
     try:
         vectorstore = get_vectorstore()
         vectorstore.add_documents(documents=splits)
@@ -54,6 +57,11 @@ def ingest_data():
         print(f"Error adding to Vector Store: {e}")
 
 if __name__ == "__main__":
+    # Load environment variables FIRST
     from dotenv import load_dotenv
     load_dotenv()
+    
+    # Set USER_AGENT to avoid warnings (optional)
+    os.environ['USER_AGENT'] = 'gep-rag-system/1.0'
+    
     ingest_data()
