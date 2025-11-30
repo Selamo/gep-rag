@@ -4,11 +4,18 @@ from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
+# Load environment variables FIRST
 load_dotenv()
 
-# Set USER_AGENT to avoid warnings
+# Set USER_AGENT to avoid warnings (BEFORE importing LangChain modules)
 os.environ['USER_AGENT'] = os.getenv('USER_AGENT', 'gep-rag-system/1.0')
+
+# NOW import LangChain modules (after USER_AGENT is set)
+from rag_engine import get_llm, get_vectorstore
+from ingestion import ingest_data
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate
 
 app = FastAPI(
     title="GEP RAG System",
@@ -40,11 +47,6 @@ async def root():
 @app.post("/chat")
 async def chat_endpoint(request: QueryRequest):
     try:
-        from rag_engine import get_llm, get_vectorstore
-        from langchain.chains import create_retrieval_chain
-        from langchain.chains.combine_documents import create_stuff_documents_chain
-        from langchain_core.prompts import ChatPromptTemplate
-
         llm = get_llm()
         vectorstore = get_vectorstore()
         retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
@@ -76,7 +78,6 @@ async def chat_endpoint(request: QueryRequest):
 @app.post("/ingest")
 async def ingest_endpoint():
     try:
-        from ingestion import ingest_data
         ingest_data()
         return {"status": "success", "message": "Ingestion completed successfully"}
     except Exception as e:
