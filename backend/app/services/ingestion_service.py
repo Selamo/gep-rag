@@ -14,9 +14,10 @@ def ingest_data():
     documents = []
     
     # 1. Web Ingestion
-    urls = ["https://gepprotech.com","https://gepprotech.com/home","https://gepprotech.com/about"
-            ,"https://gepprotech.com/courses","https://gepprotech.com/tutors","https://gepprotech.com/gallery",
-            "https://gepprotech.com/achievements","https://gepprotech.com/contact","https://gepprotech.com/enroll"]
+    urls = ["https://gepprotech.com"]
+            # ,"https://gepprotech.com/home","https://gepprotech.com/about"
+            #"https://gepprotech.com/courses","https://gepprotech.com/tutors","https://gepprotech.com/gallery",
+            #"https://gepprotech.com/achievements","https://gepprotech.com/contact","https://gepprotech.com/enroll"]
     print(f"Loading from URLs: {urls}")
     try:
         web_loader = WebBaseLoader(urls)
@@ -24,7 +25,6 @@ def ingest_data():
         if web_docs:
             documents.extend(web_docs)
             print(f"✓ Loaded {len(web_docs)} documents from Web.")
-            # Debug: print first 100 chars of first web doc
             # print(f"  Sample content: {web_docs[0].page_content[:100]}...")
         else:
             print("⚠ Web loader returned no documents.")
@@ -32,8 +32,6 @@ def ingest_data():
         print(f"✗ Error loading from Web: {e}")
 
     # 2. PDF Ingestion
-    # Try to find data directory
-    # Assuming running from project root or backend folder
     possible_paths = [
         "data",
         "../data",

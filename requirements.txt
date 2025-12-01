@@ -12,3 +12,4 @@ langchain_pinecone
 langchain-huggingface
 sentence-transformers
 requests
+gtts
