@@ -9,3 +9,6 @@ beautifulsoup4
 tiktoken
 python-dotenv
 langchain_pinecone
+langchain-huggingface
+sentence-transformers
+requests
