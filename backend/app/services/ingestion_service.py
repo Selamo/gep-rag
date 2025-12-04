@@ -1,7 +1,6 @@
 import os
 from app.config import settings
 
-# Ensure USER_AGENT is set
 os.environ['USER_AGENT'] = settings.USER_AGENT
 
 from langchain_community.document_loaders import WebBaseLoader, PyPDFLoader
