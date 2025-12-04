@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.config import settings
-from .routes import chat, ingest
+from app.config import settings
+from app.routes import chat, ingest
 
 app = FastAPI(
     title="GEP RAG System",
