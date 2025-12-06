@@ -11,3 +11,7 @@ class ChatResponse(BaseModel):
 class IngestResponse(BaseModel):
     status: str
     message: str
+
+class TTSRequest(BaseModel):
+    text: str
+    voice: str

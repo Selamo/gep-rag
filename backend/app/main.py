@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routes import chat, ingest
+from app.routes import chat, ingest, tts
 
 app = FastAPI(
     title="GEP RAG System",
@@ -21,6 +21,7 @@ app.add_middleware(
 
 app.include_router(chat.router)
 app.include_router(ingest.router)
+app.include_router(tts.router)
 
 @app.get("/")
 @app.get("/health")
